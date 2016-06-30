@@ -4,35 +4,18 @@ var mongoose = require('mongoose');
 
 //require model
 var User = require('../models/user');
+var millie = require('../routes/millie');
 
 // get the express app
 var app = express();
+
+app.use('/', millie);
 
 //connect to the database - userDb is the database name
 mongoose.connect('mongodb://localhost:27017/userDb');
 
 //parse json
 app.use(bodyParser.json());
-
-//dummy-value get route. Dummy value meaning
-//'hard coded' Millie
-app.get('/millie', function(req, res) {
-  var millie = new User({
-    name: 'Millie',
-    username: 'millie11',
-    password: 'reallybadpassword'
-  });
-
-  millie.save(function(err) {
-    if(err){
-      console.log(err);
-      res.sendStatus(500);
-    }else{
-      console.log('User saved successfully!');
-      res.sendStatus(200);
-    }
-  });
-});//end millie get route
 
 //get all users
 app.get('/all', function(req, res) {
